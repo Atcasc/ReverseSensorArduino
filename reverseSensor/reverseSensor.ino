@@ -19,5 +19,42 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+  digitalWrite(sendsorPin,LOW);
+  delay(1);
+  digitalWrite(sendsorPin,HIGH);
+  delay(10);
+  digitalWrite(sendsorPin,LOW);
+  
+  long duration = pulseIn(receivsorPin,HIGH);
+
+  long distance= duration*0.034/2;      //Formula of the sounds velocity
+
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.print("cm");
+
+  if(distance>0 && distance<=10){
+    digitalWrite(nearLed,HIGH);
+    digitalWrite(mediumLed,LOW);
+    digitalWrite(farLed,LOW);
+    tone(buzzPin, 1500);
+  }else if(distance>10 && distance<=20){
+    digitalWrite(nearLed,LOW);
+    digitalWrite(mediumLed,HIGH);
+    digitalWrite(farLed,LOW);
+    tone(buzzPin, 1000);
+
+  }else if(distance>20 && distance<=30){
+    digitalWrite(nearLed,LOW);
+    digitalWrite(mediumLed,LOW);
+    digitalWrite(farLed,HIGH);
+    tone(buzzPin, 500);
+  }else{
+    digitalWrite(nearLed,LOW);
+    digitalWrite(mediumLed,LOW);
+    digitalWrite(farLed,LOW);
+    noTone(buzzPin);
+  }
+  delay(50);
 
 }
